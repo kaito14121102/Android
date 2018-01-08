@@ -1,0 +1,55 @@
+﻿Bước 2 : Tao 1 class TraiCayAdapter
+public class TraiCayAdapter extends BaseAdapter {
+    private Context context;
+    private int layout;
+    private List<TraiCay> traiCayList;
+
+    public TraiCayAdapter(Context context, int layout, List<TraiCay> traiCayList) {
+        this.context = context;
+        this.layout = layout;
+        this.traiCayList = traiCayList;
+    }
+
+    @Override
+    public int getCount() {
+        return traiCayList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+    
+    public class ViewHolder{
+	ImageView imgHinh;
+	TextView txtTen,txtMoTa;
+    }
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+	ViewHolder holder;
+	if(convertView == null){
+		
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        	convertView = inflater.inflate(R.layout.dong_trai_cay,null);
+		holder = new ViewHolder();
+        	holder.txtTen = (TextView) convertView.findViewById(R.id.tv_ten);
+        	holder.txtMoTa = (TextView) convertView.findViewById(R.id.tv_mota);
+        	holder.imgHinh = (ImageView) convertView.findViewById(R.id.img_hinh);
+		convertView.setTag(holder);
+	}else{
+		holder = (ViewHolder) convertView.getTag();
+	}
+        
+        TraiCay traiCay = traiCayList.get(position);
+        holder.txtTen.setText(traiCay.getTen());
+        holder.txtMoTa.setText(traiCay.getMota());
+        holde.imgHinh.setImageResource(traiCay.getHinh());
+        return convertView;
+    }
+}
+

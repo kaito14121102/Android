@@ -1,0 +1,75 @@
+﻿Truyền dữ liệu từ activity A -> activity B:
+Truyền 1 chuỗi String:
+	Activity A:
+		public void Extra(String title,String description){
+        		Intent intent = new Intent(ActivityA.this,ActivityB.class);
+        		intent.putExtra("noidung",title);
+        		intent.putExtra("noidung1",description);
+        		startActivity(intent);
+		}
+		Trong đó "noidung" và "noidung1" là tên để Activity B biết được lấy dữ liệu từ tên nào
+		title và description là nội dung cần truyền.
+	
+	Activity B:
+		public  void sendDataByExtra(){
+        		Intent intent = getIntent();
+        		String title = intent.getStringExtra("noidung");
+        		String descrip = intent.getStringExtra("noidung1");
+        		tvTitle.setText(title);
+        		tvDescrip.setText(descrip);
+    		}
+
+
+
+Truyền 1 số:
+	Activity A:
+		public void Extra(String title,String description){
+        		Intent intent = new Intent(ActivityA.this,ActivityB.class);
+        		intent.putExtra("noidung",2017);
+        		startActivity(intent);
+		}
+		
+	
+	Activity B:
+		public  void sendDataByExtra(){
+        		Intent intent = getIntent();
+        		int noiDung= intent.getIntExtra("noidung",1234);
+        		tvTitle.setText(noidung+"");
+    		}
+
+Truyền 1 mảng:
+	Activity A:
+		public void Extra(String title,String description){
+        		Intent intent = new Intent(ActivityA.this,ActivityB.class);
+			String [] arrayCourse = {"Android","IOS","PHP","NodeJS","Unity"}
+        		intent.putExtra("noidung",arrayCourse);
+        		startActivity(intent);
+		}
+		
+	
+	Activity B:
+		public  void sendDataByExtra(){
+        		Intent intent = getIntent();
+        		String[] mangMonHoc= intent.getStringArrayExtra("noidung");
+        		tvTitle.setText(mangMonHoc[3]);
+    		}
+
+Truyền 1 đối tượng:
+	VD: có 1 class HocSinh với các thuộc tính: String HoTen, int NamSinh.
+	Class HocSinh nhớ implements Serializable
+
+	Activity A:
+		public void Extra(String title,String description){
+        		Intent intent = new Intent(ActivityA.this,ActivityB.class);
+			HocSinh hocSinh = new HocSinh("Tuan Minh",1997);
+        		intent.putExtra("noidung",hocSinh);
+        		startActivity(intent);
+		}
+		
+	
+	Activity B:
+		public  void sendDataByExtra(){
+        		Intent intent = getIntent();
+        		HocSinh hs= (HocSinh)intent.getSerializableExtra("noidung");
+        		tvTitle.setText(hs.getHoTen()+"-"+hs.getNamSinh());
+    		}

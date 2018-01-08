@@ -1,0 +1,20 @@
+ánh xa các EditText hoac là Button trong dialog
+	-final EditText editUser = (EditText) dialog.findViewById(R.id.txt_user);
+	-Button btnDongY = (Button) dialog.findViewById(R.id.btn_dongy);
+
+click ra ngoài phan dialog k bi tat mat dialog
+	-dialog.setCanceledOnTouchOutside(false);
+
+Huy dialog
+	-dialog.cancel();
+		ho?c
+        -dialog.dismiss();
+
+Ðat tiêu de cho dialog:
+	-dialog.setTitle("Thông báo");
+
+
+Bo tiêu de cua dialog
+	-dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+Luu ý câu lenh trên can dung truoc câu lenh du?i
+        dialog.setContentView(R.layout.dialog_custom);

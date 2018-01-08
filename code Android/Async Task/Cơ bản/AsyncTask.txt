@@ -1,0 +1,37 @@
+﻿private class CongViec extends AsyncTask<Void, String,String>{ // Tham số truyền vào : tham số thứ nhất: Khi gọi class để thực thi có muốn
+truyền vào gì không. Nếu không thì là kiểu void. Tham số thứ 2 là quá trình xử lý nó trả về kiểu gì. Tham số thứ 3 kết quả trả ra kiểu gì
+
+        @Override
+        protected void onPreExecute() { // Trước khi xử lý
+            super.onPreExecute();
+            txtXuLy.setText("Bat dau"+"\n");
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            for(int i =1;i<=5;i++){
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                publishProgress("Xong viec "+i+"\n");
+            }
+            return "Xong rồi\n";
+        }
+
+        @Override
+        protected void onPostExecute(String s) { //Khi xử lý xong thì gọi hàm này
+            super.onPostExecute(s);
+            txtXuLy.append(s);
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) { //Cập nhật quá trình chạy
+            super.onProgressUpdate(values);
+            txtXuLy.append(values[0]);
+        }
+    }
+}
+
+Bắt sự kiện :                 new CongViec().execute();

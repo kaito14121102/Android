@@ -1,0 +1,24 @@
+﻿Ví dụ ta có 1 imgaeView trong file activity_main.xml
+Trong file res ta tạo 1 thư mục tên là anim. Sau đó trong thư mục anim ta lại tạo 1 file Animation resouce files tên là anim_alpha.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true" //Giữ nguyên trạng thái cuối cùng>
+
+    <alpha android:fromAlpha="1.0"
+        android:toAlpha="0.1"
+	android:repeatMode="reverse" // Trạng thái từ rõ xong mờ dần rồi lại từ mờ dần thành rõ. Nếu không có câu lệnh này thì mặc định 
+					repeatMode="restart" tức là đang rõ thành mờ rồi lại quay ngược lại bắt đầu từ rõ 
+        android:repeatCount="2"
+        android:duration="2000"/> // duration la thoi gian chay
+
+</set>
+
+Tại hàm Main:
+	final Animation animAlpha = AnimationUtils.loadAnimation(this,R.anim.anim_alpha);
+        imgAlpha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgAlpha.startAnimation(animAlpha); //Có thể thay imgAlpha = v (View)
+            }
+        });

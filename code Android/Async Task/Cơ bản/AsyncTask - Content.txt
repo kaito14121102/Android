@@ -1,0 +1,34 @@
+﻿private class ReadContent extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+            StringBuilder stringBuilder = new StringBuilder(); //Dùng String thì chỉ gán đc một lần. Nhưng khi dùng
+                                                //StringBuider thì có thể append(add) thêm vào mỗi lần đọc thêm
+            try {
+                URL url = new URL(params[0]);
+
+                URLConnection urlConnection = url.openConnection(); //Mở kết nối đường dẫn
+
+                InputStream inputStream = urlConnection.getInputStream();//Lấy dữ liệu từ đường dẫn
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String line ="";
+                while ((line=bufferedReader.readLine())!=null){
+                    stringBuilder.append(line+"\n");
+                }
+                bufferedReader.close();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return stringBuilder.toString();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Toast.makeText(ReadContentInternet.this, s, Toast.LENGTH_SHORT).show();
+            super.onPostExecute(s);
+        }
+    }
+}

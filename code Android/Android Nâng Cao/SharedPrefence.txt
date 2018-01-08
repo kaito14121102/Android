@@ -1,0 +1,44 @@
+﻿Khai báo biến:
+	private final String SHARED_PREFERENCES_NAME = "thangcoder"; (tên file lưu vào)
+	private final String MY_NAME="my_name"; 
+    	private final String AGE="age";
+    	private final String IS_SINGLE="is_single";
+    	private final String WEIGHT="weight";
+
+Lưu dữ liệu vào file: Ví dụ lưu tên Luu Tuan Minh vao trong 1 file xml thì ta cần 1 chuỗi MY_NAME ("my_name") như 1 cái mã để sau này 
+lấy dữ liệu lên thì dựa vào nó để lấy:
+	SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
+        //Bien editor de push du lieu vao
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(MY_NAME,"Luu Tuan Minh");
+        editor.putInt(AGE,20);
+        editor.putBoolean(IS_SINGLE,false);
+        editor.putLong(WEIGHT,60);
+        editor.apply();
+        Toast.makeText(MainActivity.this, "Save Sucess!", Toast.LENGTH_SHORT).show();
+
+Đọc dữ liệu lên: Dùng phương thức getString,getInt,.... Biến đầu vào là id để phân biệt lấy giá trị từ biến nào và 1 giá trị mặc định để
+	phòng khi không có id đó . Ví dụ MY_NAME là id nhưng trong file SHARED_PREFERENCES_NAME = "thangcoder" chưa có thì nó sẽ dùng giá
+	trị "Minh" để thay thế.
+	SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
+        String name = sharedPreferences.getString(MY_NAME,"Minh");
+        int tuoi = sharedPreferences.getInt(AGE,0);
+        boolean trangthai = sharedPreferences.getBoolean(IS_SINGLE,false);
+        long cannnag = sharedPreferences.getLong(WEIGHT,0);
+        String address = sharedPreferences.getString("ADSRESS","Ha noi");
+        Toast.makeText(MainActivity.this, name+"\n"+tuoi+"\n"+trangthai+"\n"+cannnag, Toast.LENGTH_SHORT).show();
+
+Xóa dữ liệu theo khóa:
+	public void RemoveKey(String key){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(key); (key là id ví dụ như là MY_NAME, AGE,WEIGHT mà mình đã push vào lúc đầu)
+        editor.apply();
+    }
+Xóa toàn bộ dữ liệu trong file:
+	public void RemoveAll(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+    }

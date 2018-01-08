@@ -1,0 +1,34 @@
+﻿tableImg = (TableLayout) findViewById(R.id.table_img);
+        int sodong = 4;
+        int socot = 3;
+        //Trộng mảng
+        Collections.shuffle(MainActivity.arrayName);
+        //Tạo dòng và cột
+           for(int i = 1; i<= sodong;i++){
+            TableRow tableRow = new TableRow(this);
+            for (int j = 1 ; j<=socot; j++){
+                ImageView imageView = new ImageView(this);
+                TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(180,180);
+                imageView.setLayoutParams(layoutParams);
+
+                final int vitri = socot*(i-1)+j-1;
+
+                int idHinh = getResources().getIdentifier(MainActivity.arrayName.get(vitri),"drawable",getPackageName());
+                imageView.setImageResource(idHinh);
+                //add imgeview vào tableRow
+                tableRow.addView(imageView);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.putExtra("tenhinhchon",MainActivity.arrayName.get(vitri));
+                        setResult(RESULT_OK,intent);
+                        finish();
+                    }
+                });
+
+            }
+            //add tableRow vào table
+            tableImg.addView(tableRow);
+        }
+    }

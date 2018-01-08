@@ -1,0 +1,26 @@
+﻿Cho textbox biến txtTime
+Khởi tạo: 
+	-Calender calender = Calender.getInstance();
+
+Lấy chi tiết đầy đủ thời gian:
+	-txtTime.append(calender.getTime() + "\n");
+
+Lấy riêng ngày tháng năm:
+	-txtTime.append(calender.get(Calender.DATE) + "\n");
+	-txtTime.append(calender.get(Calender.MONTH) + "\n");
+	-txtTime.append(calender.get(Calender.YEAR) + "\n");
+
+Format kiểu dd/MM/yyyy :
+	-SimpleDateFormat dinhDangNgay = new SimpleDateFormat("dd/MM/yyyy");
+	 txtTime.append(dinhDangNgay.format(calender.getTime()));
+
+Lấy giờ:
+	-txtTime.append(calender.get(Calender.HOUR_OF_DAY)+"\n");
+
+Lấy đủ giờ phút:
+	-SimpleDateFormat dinhDangGio = new SimpleDateFormat("hh:mm:ss a")  AM/PM
+	-SimpleDateFormat dinhDangGio = new SimpleDateFormat("hh:mm:ss H")  0-23
+	-SimpleDateFormat dinhDangGio = new SimpleDateFormat("hh:mm:ss k")  1-24
+	-txtTime.append(dinDangGio.format(calender.getTime())+"\n");
+
+https://developer.android.com/reference/java/text/SimpleDateFormat.html

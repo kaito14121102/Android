@@ -1,0 +1,40 @@
+﻿
+private class ReadRSS extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+            StringBuilder content = new StringBuilder();
+            try {
+                URL url = new URL(params[0]);
+                InputStreamReader inputStreamReader = new InputStreamReader(url.openConnection().getInputStream());
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String line="";
+                while ((line=bufferedReader.readLine())!=null){
+                    content.append(line+"\n");
+                }
+                bufferedReader.close();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return content.toString();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            XMLDOMParser parser = new XMLDOMParser();
+            Document document = parser.getDocument(s);
+            NodeList nodeList = document.getElementsByTagName("item");
+            String tieuDe="";
+            for(int i = 0; i< nodeList.getLength();i++){
+                Element element = (Element) nodeList.item(i);
+                tieuDe=parser.getValue(element,"title");
+                arrayTitle.add(tieuDe);          //Đây là mảng lưu nội dung tiêu đề các bài báo để hiển thị lên ListView
+                arrayLink.add(parser.getValue(element,"link")); //Đây là mảng để lưu các đường link các bài báo để khi bắt sự kiện
+							//click vào tên bài báo thì ta truyền đường link này sang 1 màn hình khác để hiển thị
+            }
+            adapter.notifyDataSetChanged();
+        }
+    }

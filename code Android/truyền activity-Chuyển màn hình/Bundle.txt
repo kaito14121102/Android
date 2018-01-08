@@ -1,0 +1,24 @@
+﻿Activity A:	(Gửi)
+	Intent intent = new Intent(ActivityA.this,ActivityB.class);
+	
+	String[] arrayName = {"Android","IOS","PHP","NodeJS","Unity"}
+        HocSinh hocSinh = new HocSinh("Tuan Minh",1997);
+
+	Bundle bundle = new Bundle();
+        bundle.putString("chuoi","Noi dung kieu chuoi");
+        bundle.putInt("so",1234567);
+	bundle.putStringArray("mang", arrayName);
+	bundle.putSerializable("doituong", hocSinh);
+
+        intent.putExtra("dulieu",bundle);
+        startActivity(intent);
+
+Activity B: (Nhận)
+	Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("dulieu");
+        
+	String ten = bundle.getString("chuoi");
+        int    so  = bundle.getInt("so",123);
+	String [] mang = bundle.getStringArray("mang");
+	HocSinh hocSinh = (HocSinh) bundle.getSerializable("doituong");
+        

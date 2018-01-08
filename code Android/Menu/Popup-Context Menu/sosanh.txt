@@ -1,0 +1,2 @@
+﻿PopupMenu dùng để click 1 lần sẽ hiện lên menu 
+ContextMenu dùng để nhấn giữ sẽ hiện lên menu như thao tác gọi/gửi tin nhắn/ xóa trong danh bạ

@@ -1,0 +1,10 @@
+﻿Khởi tạo DatePiker
+	private void ChonNgay(){
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
+
+            }
+        },2017,01,01);
+        datePickerDialog.show();
+    }

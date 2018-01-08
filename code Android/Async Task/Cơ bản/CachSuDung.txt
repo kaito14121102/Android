@@ -1,0 +1,8 @@
+﻿Theo mặc định khi bạn làm việc với mạng  (network) trong Android, bạn nên tạo ra một thread mới để gửi và nhận dữ liệu trả về. 
+Nếu bạn làm việc trên thread chính bạn sẽ nhận được lỗi android.os.NetworkOnMainThreadException, đây là chính sách mặc định của Android.
+Theo khuyến nghị bạn nên tạo một class mở rộng từ  AsyncTask<Params, Progress, Result>, class này không phải là một Thread, 
+nó mở rộng từ Object, tuy nhiên khi thực thi nhiệm vụ (Gọi phương thức AsyncTask.execute(params)), 
+nó tạo ra một Thread mới để thực thi phương thức doInBackground(params). 
+Sau khi thread hoàn thành phương thức onPostExecute(result) sẽ được gọi.-trích o7planing.org﻿
+
+

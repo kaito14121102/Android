@@ -1,0 +1,4 @@
+﻿Resources r = getResources();
+int px = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, r.getDisplayMetrics());
+TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(px,px);
+imageView.setLayoutParams(layoutParams);

@@ -1,0 +1,56 @@
+﻿Khi click vào 1 hình ảnh sẽ ra đường dẫn của 1 trang web:
+	Intent intent = new Intent();
+	intent.setAction(Intent.ACTION_VIEW);
+	intent.setData(Uri.parse("http://khoapham.vn"));
+	startActivity(intent);
+
+Khi click vào 1 hình ảnh sẽ chuyển đến phần tin nhắn:
+	Intent intent = new Intent();
+	intent.setAction(Intent.ACTION_SENDTO);	
+	intent.setData(Uri.parse("sms:087656465"));
+	startActivity(intent);
+
+Khi click vào 1 hình ảnh sẽ chuyển đến phần gọi điện:
+	Trước hết cần xin quyền trong file androidManifest
+	<uses-permission android:name="android.permission.CALL_PHONE"/>  (Viết trước phần application)
+
+	Intent intent = new Intent();
+	intent.setAction(Intent.ACTION_CALL);	
+	intent.setData(Uri.parse("tel:087656465"));
+	startActivity(intent);
+
+Khi click vào 1 hình ảnh sẽ chuyển đến phần camera:
+	Dành cho phiên bản android 5 trở xuống
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        	startActivityForResult(intent,REQUEST_CODE_CAMERA); 
+		(REQUEST_CODE_CAMERA là một biến toàn cục kiểu int ví dụ int REQUEST_CODE_EDIT = 123)
+	
+
+	Lấy ảnh gán vào image:
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_CODE_EDIT && resultCode ==RESULT_OK && data!=null){
+           Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+	   imgHinh.setImageBitmap(bitmap);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+
+	
+	Dành cho phiên bản android 6.0 trở lên cần xin cấp quyền:
+			Trong file androidManifest : <uses-permission android:name="android.permission.CAMERA"/>
+			ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{android.Manifest.permission.CAMERA},REQUEST_CODE_EDIT);
+			(có thể thêm quyền bằng cách đánh dấu phảy sau CAMERA và viết tiếp quyền)
+
+	Lấy dữ liệu:
+			@Override
+   			 public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        			if(requestCode==REQUEST_CODE_EDIT&&grantResults.length>0&&grantResults[0]== PackageManager.PERMISSION_GRANTED){
+            				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            				startActivityForResult(intent,REQUEST_CODE_EDIT);
+        			}else {
+            				Toast.makeText(this, "Bạn k cho phép mở camera!", Toast.LENGTH_SHORT).show();
+        			}
+        			super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    			}
+	

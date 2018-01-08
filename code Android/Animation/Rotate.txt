@@ -1,0 +1,12 @@
+﻿Cách tạo giống hệt Alpha. Kiểu animation: Xoay (cái chuông)
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:repeatMode="reverse">
+    <rotate android:fromDegrees="-45"
+        android:toDegrees="45"
+        android:repeatCount="infinite"
+        android:pivotX="50%"
+        android:pivotY="10%"
+        android:duration="500"/>
+
+</set>

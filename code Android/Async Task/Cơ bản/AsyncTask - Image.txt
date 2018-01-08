@@ -1,0 +1,29 @@
+﻿public class LoadImage extends AsyncTask<String,Void,Bitmap>{ // ham số truyền vào : tham số thứ nhất: Khi gọi class để thực thi có muốn
+truyền vào gì không. Ví dụ ở đây ta cần truyền vào 1 đường dẫn mạng nên để là String. Tham số thứ 2 là quá trình xử lý nó trả về kiểu gì. 
+Do ở đây chỉ truyền 1 ảnh rất nhanh nên ta k cần cập nhật quá trình nên để kiểu void.Tham số thứ 3 kết quả trả ra kiểu gì
+        Bitmap bitmapHinh=null;
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            try {
+                URL url = new URL(params[0]);
+                InputStream stream = url.openConnection().getInputStream();
+                bitmapHinh = BitmapFactory.decodeStream(stream);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bitmapHinh;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            imgAsync.setImageBitmap(bitmap);
+            super.onPostExecute(bitmap);
+        }
+    }
+}
+
+Bắt sự kiện để load Ảnh:
+	      new LoadImage().execute("https://online.khoapham.vn/user/img/profile/android-robot-icon-22-1494604239.png");
+

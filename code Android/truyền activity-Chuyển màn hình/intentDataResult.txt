@@ -1,0 +1,21 @@
+﻿activity A chuyển sang activity B sau đó activity B gửi dữ liệu nhập vào sang activity A
+Activity A: gửi yêu cầu sang cho màn hình B
+	Intent intent = new Intent(ActivityA.this,ActivityB.class);
+        startActivityForResult(intent,REQUEST_CODE_EDIT); 
+	(REQUEST_CODE_EDIT là một biến toàn cục kiểu int ví dụ int REQUEST_CODE_EDIT = 123)
+
+Activity B:Truyền dữ liệu sang A
+	String tenmoi = editName.getText().toString();
+        Intent intent = new Intent();
+        intent.putExtra("tenmoine",tenmoi);
+        setResult(RESULT_OK, intent);
+        finish(); //đóng màn hình hiện tại
+
+Activity A: Nhận dữ liệu:
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_CODE_EDIT && resultCode ==RESULT_OK && data!=null){
+            String ten = data.getStringExtra("tenmoine");
+            txtName.setText(ten);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }

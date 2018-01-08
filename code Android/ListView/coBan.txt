@@ -1,0 +1,77 @@
+﻿VD: Ta muốn tạo 1 listview trái cây gồm nhiều thuộc tính
+Bước 1:
+Tạo 1 class TraiCay để lưu đối tượng với những thuộc tính cần lưu. VD trái cây gồm những thuộc tính như tên, mô tả, hình trái cây đó
+Đồng thời tạo 1 file xml để hiển thị mẫu 1 dòng trong listview. VD: Trái cây có 3 thuộc tính tên, mô tả, hình trái cây thì
+ta có 1 imageView để lưu hình ảnh,2 textView để lưu tên và mô tả.
+
+Bước 2 : Tao 1 class TraiCayAdapter
+public class TraiCayAdapter extends BaseAdapter {
+    private Context context;
+    private int layout;
+    private List<TraiCay> traiCayList;
+
+    public TraiCayAdapter(Context context, int layout, List<TraiCay> traiCayList) {
+        this.context = context;
+        this.layout = layout;
+        this.traiCayList = traiCayList;
+    }
+
+    @Override
+    public int getCount() {
+        return traiCayList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = inflater.inflate(R.layout.dong_trai_cay,null);
+        TextView tvTen = (TextView) convertView.findViewById(R.id.tv_ten);
+        TextView tvMota = (TextView) convertView.findViewById(R.id.tv_mota);
+        ImageView imgHinh = (ImageView) convertView.findViewById(R.id.img_hinh);
+
+        TraiCay traiCay = traiCayList.get(position);
+        tvTen.setText(traiCay.getTen());
+        tvMota.setText(traiCay.getMota());
+        imgHinh.setImageResource(traiCay.getHinh());
+        return convertView;
+    }
+}
+
+Bước 3 : Ở hàm Main:
+    private ListView lvTraicay;
+    public static ArrayList<TraiCay> traiCayArrayList;
+    public  static TraiCayAdapter adapter;
+ 	
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        initWidget();
+        adapter = new TraiCayAdapter(this, R.layout.dong_trai_cay, traiCayArrayList);
+        lvTraicay.setAdapter(adapter);
+        setEven();
+
+    }
+
+    public void initWidget() {
+        btnNho = (FloatingActionButton) findViewById(R.id.btn_nho);
+        btnXoai = (FloatingActionButton) findViewById(R.id.btn_xoai);
+        btnCong = (FloatingActionButton) findViewById(R.id.btn_cong);
+        btnFloat = (FloatingActionButton) findViewById(R.id.btn_float);
+        lvTraicay = (ListView) findViewById(R.id.lv_traicai);
+        if (traiCayArrayList == null) {
+            traiCayArrayList = new ArrayList<>();
+
+        }
+        traiCayArrayList.add(new TraiCay("Dâu tây", "Dâu tây Đà Lạt", R.drawable.dautay));
+    }
+
