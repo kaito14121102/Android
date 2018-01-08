@@ -1,0 +1,39 @@
+﻿private class ReadJSON extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+            StringBuilder content = new StringBuilder();
+            try {
+                URL url = new URL(params[0]);
+                InputStreamReader inputStreamReader= new InputStreamReader(url.openConnection().getInputStream());
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String line ="";
+                while ((line=bufferedReader.readLine())!=null){
+                    content.append(line);
+                }
+                bufferedReader.close();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return content.toString();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject object = new JSONObject(s);
+                String monhoc = object.getString("monhoc");
+                String noihoc = object.getString("noihoc");
+                String website = object.getString("website");
+                String fanpage = object.getString("fanpage");
+                String logo = object.getString("logo");
+                Toast.makeText(MainActivity.this,monhoc+"\n"+noihoc+"\n"+website+"\n"+fanpage+"\n"+logo , Toast.LENGTH_SHORT).show();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
