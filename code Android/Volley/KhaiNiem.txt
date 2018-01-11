@@ -1,0 +1,4 @@
+﻿Ưu điểm : ngắn gọn tốc độ nhanh hơn so với AsynTask
+Nhược điểm : chỉ làm việc với network, 
+
+Thư viện: compile 'com.android.volley:volley:1.1.0'(nhớ viết trong dependencies)

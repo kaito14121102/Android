@@ -1,0 +1,2 @@
+MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.am_tham_ben_em);
+              	mediaPlayer.start();

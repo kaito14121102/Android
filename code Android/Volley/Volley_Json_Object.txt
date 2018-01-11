@@ -1,0 +1,32 @@
+﻿protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_volley_json_object);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        String url="https://khoapham.vn/KhoaPhamTraining/json/tien/demo1.json";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String monhoc = response.getString("monhoc");
+                            String noihoc = response.getString("noihoc");
+                            String website = response.getString("website");
+                            Toast.makeText(VolleyJsonObject.this, monhoc+" "+noihoc+" "+website, Toast.LENGTH_SHORT).show();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(VolleyJsonObject.this, "Lỗi!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+        requestQueue.add(jsonObjectRequest);
+    }
+}
+
+//JsonArrayRequest tương tự
