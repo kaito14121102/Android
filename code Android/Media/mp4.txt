@@ -1,2 +1,13 @@
-MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.am_tham_ben_em);
-              	mediaPlayer.start();
+mp4 local:
+		vvMp4 là VideoView
+		vvMp4.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+ R.raw.noi_nay_co_anh_1));
+                vvMp4.start();
+                MediaController mediaController = new MediaController(MainActivity.this);
+                mediaController.setMediaPlayer(vvMp4);
+                vvMp4.setMediaController(mediaController); 
+
+mp4 online:
+		Uri uri = Uri.parse("https://khoapham.vn/download/vuoncaovietnam.mp4");
+                videoView.setVideoURI(uri);
+                videoView.setMediaController(new MediaController(MainActivity.this));
+                videoView.start();

@@ -1,0 +1,153 @@
+﻿package com.anime.rezero.sqlitekhoapham;
+
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.database.Cursor;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+    Database database;
+    ListView lvCongViec;
+    ArrayList<CongViec> arrayCV;
+    CongViecAdapter adapter;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        lvCongViec = (ListView) findViewById(R.id.lv_congviec);
+        arrayCV = new ArrayList<>();
+        adapter=new CongViecAdapter(this,R.layout.dong_cong_viec,arrayCV);
+        lvCongViec.setAdapter(adapter);
+
+        //Tạo database ghichu
+        database = new Database(this,"ghichu.sqlite",null,1);
+        //Tạo bảng
+        database.QueryData("create table if not exists CongViec(Id integer primary key autoincrement, TenCV varchar(50))");
+        //insert data
+        //database.QueryData("insert into CongViec values(null,'Viết ứng dụng ghi chú')");
+        docDuLieu();
+
+    }
+    private void docDuLieu(){
+        //select data
+        Cursor dataCongViec = database.GetData("select * from CongViec");
+        arrayCV.clear();
+        while (dataCongViec.moveToNext()){
+            String ten = dataCongViec.getString(1);
+            int id = dataCongViec.getInt(0);
+            arrayCV.add(new CongViec(id,ten));
+        }
+        adapter.notifyDataSetChanged();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_congviec,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.menu_add){
+            DialogThem();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void DialogThem(){
+        final Dialog dialog=new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_them_cong_viec);
+        final EditText edtTen = (EditText) dialog.findViewById(R.id.edit_ten);
+        Button btnThem = (Button) dialog.findViewById(R.id.btn_them);
+        Button btnHuy = (Button) dialog.findViewById(R.id.btn_huy);
+        btnHuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        btnThem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tencv = edtTen.getText().toString();
+                if(tencv.equals("")){
+                    Toast.makeText(MainActivity.this, "Vui lòng nhập tên công việc", Toast.LENGTH_SHORT).show();
+                }else {
+                    database.QueryData("insert into CongViec values(null, '"+ tencv +"')");
+                    Toast.makeText(MainActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    docDuLieu();
+                }
+            }
+        });
+        dialog.show();
+
+    }
+
+    public void DialogCapNhat(String ten,final int id){
+        final Dialog dialog=new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_edit);
+        final EditText editCapNhat = (EditText) dialog.findViewById(R.id.edit_capnhat);
+        Button btnCapNhat = (Button) dialog.findViewById(R.id.btn_capnhat);
+        Button btnHuyCapNhat = (Button) dialog.findViewById(R.id.btn_huycapnhat);
+        editCapNhat.setText(ten);
+        btnHuyCapNhat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        btnCapNhat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tencv = editCapNhat.getText().toString();
+                if(tencv.equals("")){
+                    Toast.makeText(MainActivity.this, "Vui lòng nhập tên công việc", Toast.LENGTH_SHORT).show();
+                }else {
+                    database.QueryData("update CongViec set TenCV ='"+tencv+"' where Id='"+id+"'");
+                    Toast.makeText(MainActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    docDuLieu();
+                }
+            }
+        });
+        dialog.show();
+
+    }
+
+    public  void DialogXoa(String ten, final int id){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Xác nhận xóa!");
+        dialog.setMessage("Ban có muốn xóa công việc "+ten+" không!");
+        dialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                database.QueryData("delete from CongViec where Id ='"+id+"'");
+                Toast.makeText(MainActivity.this, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                docDuLieu();
+            }
+        });
+        dialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+}

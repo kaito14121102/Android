@@ -29,17 +29,19 @@ Khi click vào 1 hình ảnh sẽ chuyển đến phần camera:
 	Lấy ảnh gán vào image:
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_CODE_EDIT && resultCode ==RESULT_OK && data!=null){
+        if(requestCode == REQUEST_CODE_CAMERA && resultCode ==RESULT_OK && data!=null){
            Bitmap bitmap = (Bitmap)data.getExtras().get("data");
 	   imgHinh.setImageBitmap(bitmap);
         }
         super.onActivityResult(requestCode, resultCode, data);
+	}
 
 	
 	Dành cho phiên bản android 6.0 trở lên cần xin cấp quyền:
 			Trong file androidManifest : <uses-permission android:name="android.permission.CAMERA"/>
+		Bắt sự kiện click:
 			ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{android.Manifest.permission.CAMERA},REQUEST_CODE_EDIT);
+                        new String[]{android.Manifest.permission.CAMERA},REQUEST_CODE_CAMERA);
 			(có thể thêm quyền bằng cách đánh dấu phảy sau CAMERA và viết tiếp quyền)
 
 	Lấy dữ liệu:
@@ -54,3 +56,27 @@ Khi click vào 1 hình ảnh sẽ chuyển đến phần camera:
         			super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     			}
 	
+
+Khi click vào 1 hình ảnh sẽ chuyển đến phần thư viện ảnh có săn trong máy:
+	Bắt sự kiện:
+		Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent,REQUEST_CODE_FOLDER);
+	Lấy kết quả:
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        
+        if(requestCode == REQUEST_CODE_FOLDER && resultCode ==RESULT_OK && data!=null){
+            Uri uri = data.getData();
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(uri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                imgBackground.setImageBitmap(bitmap);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+	xin quyền truy cập đọc bộ nhớ:
+		    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>

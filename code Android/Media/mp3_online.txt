@@ -1,0 +1,18 @@
+﻿MP3:
+	String url = "https://khoapham.vn/download/vietnamoi.mp3";
+                final MediaPlayer mediaPlayer = new MediaPlayer();
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);//luồng dữ liệu
+                try {
+                    mediaPlayer.setDataSource(url);
+                    mediaPlayer.prepareAsync(); // chuẩn bị dữ liệu
+                    btnProgress.setVisibility(View.VISIBLE);//hiển thỉ progress bar
+                    mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mp) {
+                            btnProgress.setVisibility(View.INVISIBLE);
+                            mp.start();
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }

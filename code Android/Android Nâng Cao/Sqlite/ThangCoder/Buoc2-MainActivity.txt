@@ -1,0 +1,72 @@
+﻿package com.anime.rezero.sqlitedatabasebuoi1;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.anime.rezero.sqlitedatabasebuoi1.Data.DBManager;
+import com.anime.rezero.sqlitedatabasebuoi1.Model.Student;
+import com.anime.rezero.sqlitedatabasebuoi1.adapter.StudentAdapter;
+
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+    private EditText edtName,edtPhoneNumber,edtEmail,edtAddress;
+    private Button btnSave;
+    private ListView lvStdent;
+    private List<Student> studentList;
+    private StudentAdapter customAdapter;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        initWidget();
+        final DBManager dbManager = new DBManager(this);
+        studentList = dbManager.getAllStudent();
+	setAdapter();//Load dữ liệu lên listview
+        
+	btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Student student = createStudent();
+                if(student!=null){
+                    dbManager.addStudent(student);
+                    studentList.clear();
+                    studentList.addAll(dbManager.getAllStudent());
+                    setAdapter();
+                    Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void initWidget(){
+        edtName = (EditText) findViewById(R.id.edt_name);
+        edtAddress = (EditText) findViewById(R.id.edt_address);
+        edtEmail = (EditText) findViewById(R.id.edt_email);
+        edtPhoneNumber = (EditText) findViewById(R.id.edt_number);
+        lvStdent = (ListView) findViewById(R.id.lv_student);
+        btnSave = (Button) findViewById(R.id.btn_save);
+    }
+    private Student createStudent(){
+        String name = edtName.getText().toString();
+        String add = edtAddress.getText().toString();
+        String email = edtEmail.getText().toString();
+        String phone = edtPhoneNumber.getText().toString();
+        Student student = new Student(name,add,phone,email);
+        return student;
+    }
+    private void setAdapter(){
+        if(customAdapter==null){
+            customAdapter=new StudentAdapter(this,R.layout.item_list_student,studentList);
+            lvStdent.setAdapter(customAdapter);
+        }
+        customAdapter.notifyDataSetChanged();
+        lvStdent.setSelection(customAdapter.getCount()-1);
+
+    }
+}
