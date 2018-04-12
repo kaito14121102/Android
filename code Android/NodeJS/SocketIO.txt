@@ -1,0 +1,15 @@
+﻿Kết nối cơ bản:
+	MainActivity:
+		Khai báo:  private Socket mSocket;
+			   try {
+            			mSocket = IO.socket("http://192.168.0.101:3000/");  //Kết nối Server
+        		   } catch (URISyntaxException e) {
+            			e.printStackTrace();
+        		   }
+        		   mSocket.connect();
+			   
+  Gửi dữ liệu lên server:  mSocket.emit("client-send-data","Lap trinh android");
+
+	
+	
+	
