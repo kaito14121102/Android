@@ -1,0 +1,27 @@
+﻿//Đổi title sự kiện click
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    ...
+    //other stuff here
+    ...
+    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+    // get menu from navigationView
+    Menu menu = navigationView.getMenu();
+
+    // find MenuItem you want to change
+    MenuItem nav_camara = menu.findItem(R.id.nav_camara);
+
+    // set new title to the MenuItem
+    nav_camara.setTitle("NewTitleForCamera");
+
+    // do the same for other MenuItems
+    MenuItem nav_gallery = menu.findItem(R.id.nav_gallery);
+    nav_gallery.setTitle("NewTitleForGallery");
+
+    // add NavigationItemSelectedListener to check the navigation clicks
+    navigationView.setNavigationItemSelectedListener(this);
+
+}

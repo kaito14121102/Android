@@ -1,0 +1,2 @@
+﻿cài git-scm.com,nodejs.org
+trong git bash here : gõ npm install để downloadx
