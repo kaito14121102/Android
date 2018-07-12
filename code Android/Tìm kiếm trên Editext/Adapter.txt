@@ -1,0 +1,64 @@
+package com.example.minh.kiemtra;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+/**
+ * Created by Minh on 5/3/2018.
+ */
+
+public class NhaHangAdapter extends BaseAdapter implements Filterable {
+    private Context context;
+    private int layout;
+    private ArrayList<NhaHang> nhaHangArrayList;
+    private ArrayList<NhaHang> backupdata;
+
+
+    public NhaHangAdapter(Context context, int layout, ArrayList<NhaHang> nhaHangArrayList) {
+        this.context = context;
+        this.layout = layout;
+        this.nhaHangArrayList = nhaHangArrayList;
+    }
+
+    @Override
+    public Filter getFilter() {
+        Filter f = new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                FilterResults fr = new FilterResults();
+                if (backupdata == null) backupdata = new ArrayList<>(nhaHangArrayList);
+                if (charSequence == null) backupdata = new ArrayList<>(nhaHangArrayList);
+                if (charSequence == null || charSequence.length() == 0) {
+                    fr.values = backupdata;
+                    fr.count = backupdata.size();
+                } else {
+
+                    ArrayList<NhaHang> newdata = new ArrayList<>();
+                    for (NhaHang c : nhaHangArrayList)
+                        if (c.getDiachi().toLowerCase().contains(charSequence.toString().toLowerCase()))
+                            newdata.add(c);
+                    fr.values = newdata;
+                    fr.count = nhaHangArrayList.size();
+                }
+                return fr;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                nhaHangArrayList = (ArrayList<NhaHang>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+        return f;
+    }
+
+   
+}

@@ -8,6 +8,7 @@ Khi click vào 1 hình ảnh sẽ chuyển đến phần tin nhắn:
 	Intent intent = new Intent();
 	intent.setAction(Intent.ACTION_SENDTO);	
 	intent.setData(Uri.parse("sms:087656465"));
+        intent.putExtra("sms_body",edtSMS.getText().toString());
 	startActivity(intent);
 
 Khi click vào 1 hình ảnh sẽ chuyển đến phần gọi điện:
@@ -77,6 +78,22 @@ Khi click vào 1 hình ảnh sẽ chuyển đến phần thư viện ảnh có s
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
+
+
+Khi muốn send Email:
+	btnSendEmail.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Uri file = Uri.fromFile(new File("/sdcard/DCIM/Camera/IMG_20180413_042403.jpg"));
+            Intent intent = new Intent(Intent.ACTION_SENDTO,Uri.parse("mailto:"+edtDiaChi.getText()));
+            intent.putExtra(Intent.EXTRA_SUBJECT,edtTieuDe.getText().toString());
+            intent.putExtra(Intent.EXTRA_TEXT,edtNoiDung.getText().toString());
+            intent.putExtra(Intent.EXTRA_STREAM,file);
+            startActivity(intent);
+        }
+    });
 
 	xin quyền truy cập đọc bộ nhớ:
 		    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>

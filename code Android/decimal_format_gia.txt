@@ -1,0 +1,2 @@
+ DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+        holder.txtGiaSP.setText(decimalFormat.format(sanPham.getGiasp())+"");

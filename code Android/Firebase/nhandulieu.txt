@@ -1,0 +1,61 @@
+﻿//nhan ve kieu chuoi:
+	mData.child("KhoaHoc").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                //append cơ chế giống vòng for
+                textView.append(dataSnapshot.getValue().toString()+"\n");
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+//nhan ve kieu object
+
+	
+//        PhuongTien phuongTien = new PhuongTien("Xe đạp",2);
+//        mData.child("PhuongTien").push().setValue(phuongTien);
+        mData.child("PhuongTien").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                PhuongTien ptien = dataSnapshot.getValue(PhuongTien.class);
+                Toast.makeText(MainActivity.this, ptien.Ten, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
