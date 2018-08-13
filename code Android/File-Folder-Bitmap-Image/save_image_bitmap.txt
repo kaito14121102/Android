@@ -1,0 +1,19 @@
+ public void saveImage(Bitmap bitmap) {
+        try {
+            FileOutputStream fOut = null;
+            String strDirectoy = Environment.getExternalStoragePublicDirectory	    (Environment.DIRECTORY_PICTURES) + "/Folder/";
+            Calendar calender = Calendar.getInstance();
+            String imageName = "image"+calender.getTimeInMillis();
+            File file = new File(strDirectoy,imageName);
+            fOut = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+            MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), 	    file.getName(), file.getName());
+            fOut.flush();
+            fOut.close();
+            Toast.makeText(this, "save success", Toast.LENGTH_SHORT).show();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }

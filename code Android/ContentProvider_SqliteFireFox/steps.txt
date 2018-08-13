@@ -49,3 +49,11 @@ Bước 6 : Đọc dữ liệu hoặc thêm mới từ cơ sở dữ liệu tron
                 values.put("name", "minh1");
                 values.put("age", "22");
                 Uri uri1 = getContentResolver().insert(uri, values);
+
+
+Chú ý khai báo trong android manifest:
+
+        <provider
+            android:authorities="com.example.minh.contentprovider.ShareData"
+            android:exported="true"
+            android:name=".ShareData"/>

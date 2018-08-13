@@ -1,0 +1,124 @@
+﻿Tạo mới 1 Observable:
+	1.Observable.from():
+			//Khi truyền 1 mảng sẽ lấy từng phần tử trong mảng và thực hiện tại onNext
+        Observable.from(new Integer[]{1, 2, 3}).subscribe(new Subscriber<Integer>() {
+            @Override
+            public void onCompleted() {
+                Log.d("TAGG", "onComplete");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                Log.d("TAGG_FROM", integer + "");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+
+	2.Observable.just():
+		//Khi truyền 1 mảng đầu vào thì tại onNext cũng sẽ nhận 1 mảng
+        	Observable.just(new Integer[]{1, 2, 3}).subscribe(new Subscriber<Integer[]>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Integer[] integers) {
+                Log.d("TAGG_JUST", integers[0] + "/" + integers[1] + "/" + integers[2]);
+            }
+        });
+	
+	3.ObservableDefer:
+		//cập nhật phần tử mới nhất
+        	movie = new Movie("Fast and Furious");
+        Observable<Movie> movieObservable = Observable.defer(new Func0<Observable<Movie>>() {
+            @Override
+            public Observable<Movie> call() {
+                return Observable.just(movie);
+            }
+        });
+        movie = new Movie("Guaradian of Galaxy");
+        movieObservable.subscribe(new Subscriber<Movie>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Movie movie) {
+                Log.d("TAGG", movie.getName());
+            }
+        });
+
+	4.ObservableInterval:
+		 //Cứ 3 giây chạy vào hàm onNext 1 lần
+        Observable.interval(3, TimeUnit.SECONDS).subscribe(new Subscriber<Long>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Long aLong) {
+                if (aLong == 5) {
+                    unsubscribe();
+                }
+                Log.d("TAGG", aLong + "");
+            }
+        });
+
+	5.Create Observable:
+		Observable.create(new Observable.OnSubscribe<Integer>() {
+            @Override
+            public void call(Subscriber<? super Integer> subscriber) {
+                subscriber.onNext(1);
+                subscriber.onNext(2);
+                subscriber.onNext(3);
+                subscriber.onNext(4);
+                subscriber.onCompleted();
+            }
+        }).subscribe(new Subscriber<Integer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                Log.d("TAGG",integer+"");
+            }
+        });
+    
+	
+	

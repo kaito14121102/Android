@@ -1,0 +1,26 @@
+﻿library: 	compile 'com.theartofdev.edmodo:android-image-cropper:2.6.+'
+xml:
+	<!-- Image Cropper fill the remaining available height -->
+<com.theartofdev.edmodo.cropper.CropImageView
+  xmlns:custom="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/cropImageView"
+  android:layout_width="match_parent"
+  android:layout_height="0dp"
+  android:layout_weight="1"/>
+
+
+code: cropImageView.setImageUriAsync(uri);
+// or (prefer using uri for performance and better user experience)
+cropImageView.setImageBitmap(bitmap);
+
+bắt sự kiện crop:
+          mCropView = (CropImageView) findViewById(R.id.crop_view);
+	  mCropView.setOnCropImageCompleteListener(new CropImageView.OnCropImageCompleteListener() {
+            @Override
+            public void onCropImageComplete(CropImageView view, CropImageView.CropResult result) {
+            }
+        });
+        mCropView.getCroppedImageAsync();
+        Bitmap cropped = mCropView.getCroppedImage();
+        mImageView.setImageBitmap(cropped);
+     

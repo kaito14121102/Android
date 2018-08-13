@@ -1,0 +1,21 @@
+﻿  private void ShowMenu(){
+        PopupMenu popupMenu = new PopupMenu(this,btnMenu);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_popup,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                switch (item.getItemId()){
+                    case R.id.Menu_Them: btnMenu.setText("Thêm");
+
+                        break;
+                    case  R.id.Menu_Sua: btnMenu.setText("Sửa");
+                        break;
+                    case R.id.Menu_Xoa: btnMenu.setText("Xóa");
+                        break;
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
+    }

@@ -1,0 +1,27 @@
+﻿Convert uri to bitmap:
+Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+
+Truyền bitmap từ activity A sang activity B:
+
+	Activity A:
+		 public void createImageFromBitmap(Bitmap bitmap) {
+        		String fileName = "myImage";//no .png or .jpg needed
+        		try {
+            			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            			FileOutputStream fo = openFileOutput(fileName, Context.MODE_PRIVATE);
+            			fo.write(bytes.toByteArray());
+            			// remember close file output
+            			fo.close();
+        			} catch (Exception e) {
+            				e.printStackTrace();
+            				fileName = null;
+        			}
+   		}
+
+	Activity B:
+		Bitmap bitmap = BitmapFactory.decodeStream(SignatureActivity.this.openFileInput("myImage"));
+
+
+
+

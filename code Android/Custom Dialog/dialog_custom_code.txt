@@ -1,0 +1,33 @@
+﻿  final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_custom);
+        //dialog.setTitle("Thông báo");
+        dialog.setCanceledOnTouchOutside(false);
+        // ánh xạ
+        final EditText editUser = (EditText) dialog.findViewById(R.id.txt_user);
+        final EditText editPass = (EditText) dialog.findViewById(R.id.txt_pass);
+        Button btnDongY = (Button) dialog.findViewById(R.id.btn_dongy);
+        Button btnHuy = (Button) dialog.findViewById(R.id.btn_huy);
+
+        btnDongY.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = editUser.getText().toString().trim();
+                String pass = editPass.getText().toString().trim();
+                if(username.equals("Minh")&&pass.equals("Kun")){
+                    Toast.makeText(MainActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(MainActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btnHuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+                //dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }

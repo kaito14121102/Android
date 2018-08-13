@@ -1,0 +1,25 @@
+﻿AndroidManifest:
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+MainActivity: 
+	private void onRequestStoragePermisson() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    10);
+        }
+    } //khai báo hàm này ở onCreate();
+
+	private void initFolder() {
+        final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Folder/";
+        Log.d("TAGG", dir+".");
+        File newFolder = new File(dir);
+        if (!newFolder.exists()) {
+            Log.d("TAGG", dir);
+            newFolder.mkdir();
+        }
+    }
+
+		

@@ -1,0 +1,9 @@
+﻿ private Bitmap rotateBitmap(Bitmap mBitmap, int angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
+    }
+
+		//Trước hết phải chuyển được ảnh về dạng bitmap sau đó truyền tham số vào hàm. 
+ 		    Bitmap mBitmap= rotateBitmap(bitmap, 90);
+                    mCropView.setImageBitmap(mBitmap);

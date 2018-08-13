@@ -1,0 +1,9 @@
+  Collections.sort(contactArrayList, new Comparator<Contact>() {
+                    @Override
+                    public int compare(Contact contact, Contact t1) {
+
+                        return  contact.getGroup()-t1.getGroup();
+                    }
+                });
+                contactAdapter.notifyDataSetChanged();
+                break;
