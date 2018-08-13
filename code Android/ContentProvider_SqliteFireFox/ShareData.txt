@@ -1,0 +1,76 @@
+﻿public class ShareData extends ContentProvider {
+
+    UriMatcher uriMatcher;
+    public static final String AUTHOR = "com.example.minh.contentprovider.ShareData";
+    public static final String TABLE_TEST = "information";
+    public static final String TABLE_SV = "sinhvien";
+    @Override
+    public boolean onCreate() {
+
+        //     content://com.example.minh.contentprovider.ShareData/information/1
+        uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+        uriMatcher.addURI(AUTHOR, TABLE_TEST, 1);
+        uriMatcher.addURI(AUTHOR, TABLE_TEST+"/#", 2);
+        uriMatcher.addURI(AUTHOR, TABLE_TEST+"/*", 3);
+        uriMatcher.addURI(AUTHOR, TABLE_SV, 4);
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        int match = uriMatcher.match(uri);
+
+        switch (match){
+            case 1:
+                Cursor cursor = MainActivity.sqLiteDatabase.rawQuery("select * from information", null);
+                return cursor;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+        }
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String getType(@NonNull Uri uri) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
+        int match = uriMatcher.match(uri);
+        switch (match){
+            case 1:
+
+                long rowID = sqLiteDatabase.insert(TABLE_TEST, null, values);
+                if(rowID>0){
+                    Log.d("aaaa","a"+rowID);
+                    Uri _uri = ContentUris.withAppendedId(uri, rowID);
+                    getContext().getContentResolver().notifyChange(_uri, null);
+                    return _uri;
+                }
+                break;
+        }
+
+
+        return null;
+
+    }
+
+
+    @Override
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+        return 0;
+    }
+
+    @Override
+    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
+        return 0;
+    }
+}

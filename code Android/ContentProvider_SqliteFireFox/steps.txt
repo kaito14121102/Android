@@ -1,0 +1,51 @@
+﻿Bước 1 : Tạo csdl trên firefox - tạo ra một file student.sqlite
+
+Buớc 2 : trong android tạo thư mục lưu trữ file student.sqlite : chuột phải chọn app - > new -> Folder - > Assets Folder - > paste file student.sqlite vào assets
+
+Bứớc 3 : Tạo class MyDatabase để đọc file student.sqlite để khởi tạo csdl
+
+Bước 4 : Khởi tạo database trong MainActivity :
+	Khai báo:
+		final String DATABASE_NAME = "student.sqlite";
+    		public static SQLiteDatabase sqLiteDatabase;
+
+		@Override
+   		protected void onCreate(Bundle savedInstanceState) {
+        		super.onCreate(savedInstanceState);
+        		setContentView(R.layout.activity_main);
+        
+        		sqLiteDatabase = MyDatabase.initDatabase(this, DATABASE_NAME);
+
+            		test(); // Hàm test để kiểm tra xem database đã được tạo chưa 
+    		}
+		
+
+		public void test(){
+        		String sqlQuery ="Select * from information";
+        		Cursor cursor = sqLiteDatabase.rawQuery(sqlQuery,null);
+        		if(cursor.moveToFirst()){
+            		do {
+               			String name = cursor.getString(1);
+                		Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
+            		}while (cursor.moveToNext());
+        	}
+    
+Bước 5 : Tạo class ShareData (Content Provider)
+
+Bước 6 : Đọc dữ liệu hoặc thêm mới từ cơ sở dữ liệu trong class MainActivity
+	Đọc : 
+		ContentResolver contentResolver = getContentResolver();
+        	uri = Uri.parse("content://com.example.minh.contentprovider.ShareData/information");
+
+        	Cursor cursor = contentResolver.query(uri, null, null, null, null);
+        	for (int i = 0; i < cursor.getCount(); i++) {
+            		cursor.moveToPosition(i);
+            		String name = cursor.getString(1);
+            		Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
+        	}
+
+	Thêm mới :
+		ContentValues values = new ContentValues();
+                values.put("name", "minh1");
+                values.put("age", "22");
+                Uri uri1 = getContentResolver().insert(uri, values);
